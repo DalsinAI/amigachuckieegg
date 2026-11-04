@@ -1,0 +1,51 @@
+# Chuckie Egg for AmigaOS 3.x / AmiCradle, 68040 + FPU, on acsdl12.
+#
+#   make -f amiga/Makefile.amigaos STOVE=/path/to/os32-gcc16/prefix \
+#        NDK=/path/to/gfopensdk/OpenNDK/Include_H \
+#        ACSDL=/path/to/amicradle-guest/gameports/acsdl12
+#
+# STOVE is GFOpenAmigaGCC 16.2.0-open4 or later. ACSDL is acsdl12, built with
+# its own Makefile.amigaos. This is the plain SDL game (upstream's chuckie):
+# sprites and levels are compiled in, so no data files.
+# Output: build/amigaos/ChuckieEgg/ with the program, ReadMe, COPYING and
+# their icons, and ChuckieEgg.info beside the drawer.
+
+STOVE   ?= $(HOME)/AmiCradle/stoves/os32-gcc16/prefix
+NDK     ?= $(HOME)/AmiCradle/gfopensdk/OpenNDK/Include_H
+ACSDL   ?= ../amicradle-guest/gameports/acsdl12
+ACGAME  ?= $(ACSDL)/../acgame
+CC      = $(STOVE)/bin/m68k-amigaos-gcc
+CPU     ?= -m68040 -m68881
+OPT     ?= -O2 -fomit-frame-pointer
+CFLAGS  = -noixemul -std=gnu99 $(OPT) $(CPU) -Wall -Wno-header-guard -Wno-unused-but-set-variable \
+          -Iamiga -I$(ACSDL)/include/SDL -I$(ACSDL)/include -I$(ACGAME)/include -I$(NDK)
+LDFLAGS = -noixemul $(CPU)
+BUILD   = build/amigaos
+OUT     = $(BUILD)/ChuckieEgg
+
+SRC     = chuckie.c leveldata.c audio.c spritedata.c sdl.c audio-sdl.c \
+          raster_4bit.c sdl-input.c
+OBJS    = $(SRC:%.c=$(BUILD)/%.o) $(BUILD)/stack.o
+
+all: $(OUT)/chuckie
+
+$(OUT)/chuckie: $(OBJS) | $(OUT)
+	$(CC) $(LDFLAGS) -o $@ $^ $(ACSDL)/build/amigaos/libacsdl12.a -lm
+	cp AMIGA_PORT.md $(OUT)/ReadMe
+	cp COPYING $(OUT)/COPYING
+	cp amiga/icons/chuckie.info amiga/icons/ReadMe.info amiga/icons/COPYING.info $(OUT)/
+	cp amiga/icons/ChuckieEgg.info $(BUILD)/
+
+$(BUILD)/%.o: %.c | $(BUILD)
+	$(CC) $(CFLAGS) -c -o $@ $<
+
+$(BUILD)/stack.o: amiga/stack.c | $(BUILD)
+	$(CC) $(CFLAGS) -c -o $@ $<
+
+$(BUILD) $(OUT):
+	mkdir -p $@
+
+clean:
+	rm -rf $(BUILD)
+
+.PHONY: all clean

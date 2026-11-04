@@ -16,3 +16,4 @@ stamp-h1
 *.blend1
 *.blend2
 models/*.c
+build/
