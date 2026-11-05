@@ -6,7 +6,12 @@
 
 #include <SDL.h>
 
+#ifdef __amigaos__
+/* 320x240 by default: an AGA lores screen, and a quarter of the copying. */
+static int scale = 1;
+#else
 static int scale = 2;
+#endif
 static int fullscreen = 0;
 static int aspect_hack = 1;
 
@@ -136,11 +141,17 @@ int main(int argc, const char *argv[])
 
   SDL_ShowCursor(SDL_DISABLE);
 
+#ifdef __amigaos__
+  atexit(SDL_Quit);	/* close AHI and the screen on every way out */
+#endif
+
   init_sound();
 
   init_input();
 
+#ifndef __amigaos__	/* acsdl12 has no timers: PollKeys waits instead */
   SDL_AddTimer(30, do_timer, NULL);
+#endif
 
   run_game();
 

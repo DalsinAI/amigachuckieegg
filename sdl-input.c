@@ -47,6 +47,18 @@ void PollKeys(void)
       skipcount = 0;
   }
   while (1) {
+#ifdef __amigaos__
+      /* No SDL_AddTimer on acsdl12: take the events there are, then sleep
+         until the frame is due (next_time - 30), as the 30 ms timer did.  */
+      if (!SDL_PollEvent(&event)) {
+	  if (!skip_frame) {
+	      delta = (next_time - 30) - SDL_GetTicks();
+	      if (delta > 0)
+		SDL_Delay(delta);
+	  }
+	  return;
+      }
+#else
       if (skip_frame) {
 	  if (!SDL_PollEvent (&event)) {
 	      return;
@@ -55,6 +67,7 @@ void PollKeys(void)
 	  fprintf(stderr, "SDL_WaitEvent: %s\n", SDL_GetError());
 	  exit(1);
       }
+#endif
       switch (event.type) {
       case SDL_QUIT:
 	  SDL_Quit();
