@@ -1,0 +1,13 @@
+{
+  "name": "Chuckie Egg",
+  "version": "0.3-amiga1",
+  "drawer": "ChuckieEgg",
+  "program": "chuckie",
+  "cpu": "68040",
+  "fpu": true,
+  "space": 2000000,
+  "modules": [],
+  "keep": [],
+  "parent": "Work:Games",
+  "badge": "../amiga/icons/art/chuckie.png"
+}

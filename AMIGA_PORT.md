@@ -15,14 +15,29 @@ ones (`glchuckie`, `3dchuckie`) and the curses one are not built.
     make -f amiga/Makefile.amigaos \
         STOVE=/path/to/openamigagcc-16.2.0-open4-x86_64-linux \
         NDK=/path/to/gfopensdk/OpenNDK/Include_H \
-        ACSDL=/path/to/amicradle-guest/gameports/acsdl12
+        ACSDL=/path/to/amicradle-guest/gameports/acsdl12 \
+        ACSDLLIB=/path/to/acsdl12/build \
+        ACGAME=/path/to/acgame ACGAMELIB=/path/to/acgame/build-amiga
 
-acsdl12 is built with its own `Makefile.amigaos`. This gives
+acsdl12 is built with its own `Makefile.amigaos`, without its own copy of
+ACGame (`ACG=`): the game links acgame.library's stubs (`libacgame.a`).
+`package/build-amiga.sh` (STOVE and OUT set) makes the release archive
+with its installer, fetching and building acgame, acsdl12 and zlib at
+pinned commits. The Makefile gives
 `build/amigaos/ChuckieEgg/` with `chuckie`, this ReadMe, `COPYING` and their
 icons, and `ChuckieEgg.info` beside the drawer. The sprites and the eight
 levels are compiled into the program, so it needs no data files and runs
 from anywhere. The icons are made from upstream's `chuckie.png` with
 AmiCradle's `port_icons.py` from `amiga/icons/icons.json`.
+
+## Installing
+
+Unpack the archive anywhere (on AmiCradle: `SYS:Utilities/OpenCompress x
+chuckieegg-...lha RAM:`), then double-click `Install-ChuckieEgg` beside
+the `ChuckieEgg` drawer: it asks where to put the game (`Work:Games` by
+default) and makes or updates the drawer. The drawer's `Libs` holds the
+acgame.library the game was built against, and the game opens that copy
+first.
 
 ## Playing
 
