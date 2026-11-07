@@ -1,0 +1,62 @@
+{
+  "drawer": "ChuckieEgg",
+  "drawer_icon": "amiga/icons/ChuckieEgg.info",
+  "archive": "chuckieegg-{version}-68040",
+  "members": [
+    {
+      "name": "chuckie",
+      "build": "chuckie",
+      "check": "executable_sha256"
+    },
+    {
+      "name": "Libs/acgame.library",
+      "build": "acgame.library",
+      "check": "acgame_library_sha256"
+    },
+    {
+      "name": "",
+      "tar": "drawer.tar"
+    }
+  ],
+  "aminet": [
+    [
+      "Short",
+      "Chuckie Egg, the 1983 platform game, 68040+FPU"
+    ],
+    [
+      "Author",
+      "A&F Software (1983); Sebastian Marsh (remake); Amiga port: AmiCradle Team"
+    ],
+    [
+      "Uploader",
+      "AmiCradle Team"
+    ],
+    [
+      "Type",
+      "game/actio"
+    ],
+    [
+      "Version",
+      "{version}"
+    ],
+    [
+      "Requires",
+      "AmigaOS 3.x, 68040/68060 with FPU, AGA or RTG, AHI"
+    ],
+    [
+      "Architecture",
+      "m68k-amigaos >= 3.0"
+    ]
+  ],
+  "root": [
+    {
+      "name": "Install-ChuckieEgg",
+      "repo": "package/installer/Install-ChuckieEgg",
+      "installer": true
+    },
+    {
+      "name": "Install-ChuckieEgg.info",
+      "repo": "package/installer/Install-ChuckieEgg.info"
+    }
+  ]
+}
