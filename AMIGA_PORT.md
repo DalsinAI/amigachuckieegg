@@ -27,7 +27,7 @@ pinned commits. The Makefile gives
 `build/amigaos/ChuckieEgg/` with `chuckie`, this ReadMe, `COPYING` and their
 icons, and `ChuckieEgg.info` beside the drawer. The sprites and the eight
 levels are compiled into the program, so it needs no data files and runs
-from anywhere. The icons are made from upstream's `chuckie.png` with
+from anywhere. The icons are made from our own art (`amiga/icons/art/chuckieegg.svg`) with
 AmiCradle's `port_icons.py` from `amiga/icons/icons.json`.
 
 ## Installing
